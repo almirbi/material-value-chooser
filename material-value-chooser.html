@@ -70,8 +70,7 @@
     <input id="main" value="{{value}}" />
 
     <div class="button__wrapper">
-      <!-- make this a slot -->
-      <paper-fab mini id="add" icon="add"></paper-fab>
+      <paper-fab mini id="add" icon="[[icon]]" label="[[label]]"></paper-fab>
     </div>
 
     <div class="values__wrapper collapsed">
@@ -107,6 +106,14 @@
           values: {
             type: Array,
             value: () => ['AB', 24, '02', 92]
+          },
+          icon: {
+            type: String,
+            value: ""
+          },
+          label: {
+            type: String,
+            value: "+"
           },
           observeOpened: {
             type: Function,
