@@ -1,17 +1,18 @@
 {
   "name": "material-value-chooser",
-  "description": "An number input element that makes it easier for the user to input a number from a pre-defined set of values which are often used. E.g. if entering a score of a football match, chances are high the number to be used will be an integer from 0 - 5. Instead of using the keyboard and additional tap/clicks the user can input a number more efficiently.",
+  "description":
+    "An number input element that makes it easier for the user to input a number from a pre-defined set of values which are often used. E.g. if entering a score of a football match, chances are high the number to be used will be an integer from 0 - 5. Instead of using the keyboard and additional tap/clicks the user can input a number more efficiently.",
   "main": "material-value-chooser.html",
   "dependencies": {
     "polymer": "Polymer/polymer#^2.0.0",
     "paper-icon-button": "PolymerElements/paper-icon-button#^2.0.1",
-    "paper-fab": "PolymerElements/paper-fab#^2.0.0",
-    "web-animations-js": "web-animations/web-animations-js#^2.3.1"
+    "paper-fab": "PolymerElements/paper-fab#^2.0.0"
   },
   "devDependencies": {
     "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^2.0.0",
     "web-component-tester": "Polymer/web-component-tester#^6.0.0",
-    "webcomponentsjs": "webcomponents/webcomponentsjs#^1.0.0"
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^1.0.0",
+    "web-animations-js": "web-animations/web-animations-js#^2.3.1"
   },
   "resolutions": {
     "polymer": "^2.0.0"
