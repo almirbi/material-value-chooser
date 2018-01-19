@@ -1,21 +1,29 @@
+[![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/almirbij/material-value-chooser)
+
 # \<material-value-chooser\>
 
 An number input element that makes it easier for the user to input a number from a pre-defined set of values which are often used. E.g. if entering a score of a football match, chances are high the number to be used will be an integer from 0 - 5. Instead of using the keyboard and additional tap/clicks the user can input a number more efficiently.
 
-## Install the Polymer-CLI
+You may import `iron-icons` to use with this element.
 
-First, make sure you have the [Polymer CLI](https://www.npmjs.com/package/polymer-cli) installed. Then run `polymer serve` to serve your element locally.
-
-## Viewing Your Element
-
+<!---
 ```
-$ polymer serve
+<custom-element-demo>
+  <template>
+    <script src="../webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="../web-animations-js/web-animations-next-lite.min.js"></script>
+    <link rel="import" href="material-value-chooser.html">
+    <link rel="import" href="../iron-icons/iron-icons.html">
+    
+    
+    <div class="container">
+      <next-code-block></next-code-block>
+    </div>
+  </template>
+</custom-element-demo>
 ```
+-->
 
-## Running Tests
-
+```html
+<material-value-chooser></material-value-chooser>
 ```
-$ polymer test
-```
-
-Your application is already set up to be tested via [web-component-tester](https://github.com/Polymer/web-component-tester). Run `polymer test` to run your application's test suite locally.
