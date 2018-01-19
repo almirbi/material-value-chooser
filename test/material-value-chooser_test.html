@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+  <title>material-value-chooser test</title>
+
+  <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="../../web-component-tester/browser.js"></script>
+
+  <link rel="import" href="../material-value-chooser.html">
+</head>
+
+<body>
+
+  <test-fixture id="BasicFixture">
+    <template>
+      <material-value-chooser></material-value-chooser>
+    </template>
+  </test-fixture>
+
+  <script>
+    suite('material-value-chooser', () => {
+
+      test('setting opened works', () => {
+        const element = fixture('BasicFixture');
+        assert.equal(element.opened, false);
+        const elementShadowRoot = element.shadowRoot;
+        const elementHeader = elementShadowRoot.querySelector('.values__wrapper');
+        var display = window.getComputedStyle(elementHeader, null).getPropertyValue("display");
+        assert.equal(display, "none");
+
+        element.opened = true;
+        display = window.getComputedStyle(elementHeader, null).getPropertyValue("display");
+        assert.equal(display, "flex");
+      });
+
+      test('setting value works', () => {
+        // Create a test fixture
+        const element = fixture('BasicFixture');
+        element._setValue(2);
+
+        assert.equal(element.value, 2);
+      });
+
+      test('setting available values works', (done) => {
+        // Create a test fixture
+        const element = fixture('BasicFixture');
+        element.values = [1, 'A', 3];
+
+        setTimeout(() => {
+          const elementShadowRoot = element.shadowRoot;
+          const elementHeader = elementShadowRoot.querySelector('.values__wrapper');
+          const valueButtons = [...elementHeader.querySelectorAll("paper-fab")];
+
+          assert.equal(valueButtons.length, 3);
+          done();
+        });
+
+      });
+
+    });
+  </script>
+
+</body>
+
+</html>

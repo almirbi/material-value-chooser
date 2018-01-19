@@ -1,0 +1,244 @@
+<link rel="import" href="../polymer/polymer-element.html">
+
+<link rel="import" href="../paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../paper-fab/paper-fab.html">
+
+<dom-module id="material-value-chooser">
+  <template>
+    <style>
+      :host {
+        display: inline-block;
+      }
+
+      input {
+        display: none;
+      }
+
+      .button__wrapper {
+        position: relative;
+        z-index: 20;
+      }
+
+      .values__wrapper {
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        z-index: 10;
+      }
+
+      .values__wrapper paper-fab {
+        display: flex;
+      }
+
+      .values__wrapper.collapsed {
+        display: none;
+      }
+
+      .custom_value {
+        height: 40px;
+        justify-content: center;
+        width: 40px;
+        border-radius: 100%;
+        display: flex;
+        background: var(--paper-light-blue-500);
+      }
+
+      paper-fab {
+        --paper-fab-background: var(--paper-light-blue-500);
+        --paper-fab-keyboard-focus-background: var(--paper-light-blue-900);
+      }
+
+      paper-fab#add {
+        --paper-fab-background: var(--paper-indigo-500);
+        --paper-fab-keyboard-focus-background: var(--paper-indigo-900);
+      }
+
+      .custom_value input {
+        align-self: center;
+        border: none;
+        display: flex;
+        width: 20px;
+        background: transparent;
+        color: white;
+        font-size: 14px;
+        text-align: center;
+        border-bottom: 1px solid white;
+        outline: 0;
+      }
+    </style>
+
+    <input id="main" value="{{value}}" />
+
+    <div class="button__wrapper">
+      <!-- make this a slot -->
+      <paper-fab mini id="add" icon="add"></paper-fab>
+    </div>
+
+    <div class="values__wrapper collapsed">
+      <template is="dom-repeat" items="[[values]]" as="value">
+        <paper-fab class="expandable" mini label="[[value]]" data-value$="[[value]]"></paper-fab>
+      </template>
+      <div class="custom_value expandable">
+        <input type="text" id="custom" />
+      </div>
+    </div>
+  </template>
+
+  <script>
+    /**
+     * `material-value-chooser`
+     * An input element that makes it easier for the user to input a value from a pre-defined set of values which are often used. E.g. if entering a score of a football match, chances are high the number to be used will be an integer from 0 - 5. Instead of using the keyboard and additional tap/clicks the user can input a number more efficiently. Also, poker.
+     *
+     * @customElement
+     * @polymer
+     * @demo demo/index.html
+     */
+    class MaterialValueChooser extends Polymer.Element {
+      static get is() { return 'material-value-chooser'; }
+
+      constructor() {
+        super();
+
+        this.valuesWrapper = null;
+      }
+
+      static get properties() {
+        return {
+          values: {
+            type: Array,
+            value: () => ['AB', 24, '02', 92]
+          },
+          observeOpened: {
+            type: Function,
+            value: () => (() => null)
+          },
+          opened: {
+            type: Boolean,
+            value: false,
+            notify: true,
+            observer: "observeOpened"
+          },
+          value: {
+            type: String,
+            value: 0,
+            notify: true
+          }
+        };
+      }
+
+      static observers() {
+        return [
+          '_setupValueButtons(values)'
+        ];
+      }
+
+      _observeOpened(opened) {
+        opened ? this._expandValues() : this._collapseValues();
+      }
+
+      _getValueButtons() {
+        return [...this.valuesWrapper.querySelectorAll(".expandable")];
+      }
+
+      _setupValueButtons() {
+        let config = { childList: true },
+          callback = (mutationsList) => {
+            for (var mutation of mutationsList) {
+              if (mutation.type == 'childList') {
+
+                [...mutation.addedNodes]
+                  .filter(node => node.nodeName === 'PAPER-FAB')
+                  .forEach((valueButton) => {
+
+                    let valueButtons = this._getValueButtons();
+
+                    this._valueButtonAnimate(valueButton, valueButtons);
+
+                    valueButton.addEventListener("click", () => {
+                      this._setValue(valueButton.dataset.value);
+                      this.set("opened", false);
+                    });
+                  })
+              }
+            }
+          };
+
+        var observer = new MutationObserver(callback);
+        observer.observe(this.valuesWrapper, config);
+      }
+
+      _setupCustomInput() {
+        this.$.custom.addEventListener("keydown", (event) => {
+          if (event.keyCode === 13) {
+            this._setValue(event.target.value);
+            this.set("opened", false);
+          }
+        });
+      }
+
+      _setValue(value) {
+        this.value = value;
+        this.$.add.icon = "";
+        this.$.add.label = value;
+      }
+
+      _setupClick() {
+        this.$.add.addEventListener("click", () => {
+          this.set("opened", !this.opened);
+        });
+      }
+
+      _expandValues() {
+        let valueButtons = this._getValueButtons();
+        this.valuesWrapper.classList.remove("collapsed");
+
+        valueButtons.forEach(valueButton => {
+          this._valueButtonAnimate(valueButton, valueButtons, "reverse");
+        });
+      }
+
+      _collapseValues() {
+        let values = [...this.valuesWrapper.querySelectorAll(".expandable")];
+
+        values.forEach(valueButton => {
+          this._valueButtonAnimate(valueButton, values);
+        });
+
+        setTimeout(() => {
+          this.valuesWrapper.classList.add("collapsed");
+        }, 250);
+      }
+
+      _valueButtonAnimate(node, array, direction = "normal") {
+        let height = node.offsetHeight,
+          elementSeq = array.indexOf(node) + 1;
+
+        node.animate([
+          { transform: `translateY(${elementSeq * 5}px)` },
+          { transform: `translateY(-${height * elementSeq}px)` }],
+          {
+            direction: direction,
+            fill: "forwards",
+            duration: 200
+          });
+      }
+
+      connectedCallback() {
+        super.connectedCallback();
+        this.valuesWrapper = this.shadowRoot.querySelector(".values__wrapper");
+
+        // observer for the opened property will be called before connectedCallback, while
+        // the DOM is still not complete. Asigning the proper function only after connected callback and then reseting the
+        // same value on the property forces a re-run of the observer after connectedCallback (here)
+        this.observeOpened = this._observeOpened;
+        this.set("opened", this.opened);
+
+        this._setupValueButtons();
+        this._setupCustomInput();
+        this._setupClick();
+      }
+    }
+
+    window.customElements.define(MaterialValueChooser.is, MaterialValueChooser);
+  </script>
+</dom-module>
