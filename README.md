@@ -25,5 +25,5 @@ You may import `iron-icons` to use with this element.
 -->
 
 ```html
-<material-value-chooser></material-value-chooser>
+<material-value-chooser icon="add"></material-value-chooser>
 ```
