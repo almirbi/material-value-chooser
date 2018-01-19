@@ -2,7 +2,7 @@
 
 # \<material-value-chooser\>
 
-An number input element that makes it easier for the user to input a number from a pre-defined set of values which are often used. E.g. if entering a score of a football match, chances are high the number to be used will be an integer from 0 - 5. Instead of using the keyboard and additional tap/clicks the user can input a number more efficiently.
+An input element that makes it easier for the user to input a value from a pre-defined set of values which are often used. E.g. if entering a score of a football match, chances are high the number to be used will be an integer from 0 - 5. Instead of using the keyboard and additional tap/clicks the user can input a number more efficiently. Also, poker.
 
 You may import `iron-icons` to use with this element.
 
