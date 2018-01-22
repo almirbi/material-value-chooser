@@ -40,7 +40,7 @@
 
         element.opened = true;
         display = window.getComputedStyle(elementHeader, null).getPropertyValue("display");
-        assert.equal(display, "flex");
+        assert.notEqual(display, "none");
       });
 
       test('setting value works', () => {
