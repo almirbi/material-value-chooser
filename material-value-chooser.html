@@ -125,7 +125,6 @@
           },
           value: {
             type: String,
-            value: 0,
             notify: true,
             observer: "_valueChanged"
           }
@@ -139,9 +138,14 @@
       }
 
       _valueChanged(value) {
-        if (value && value !== "") {
-          this.$.add.icon = "";
-          this.$.add.label = value;
+        if (value !== undefined && value !== null && value !== "") {
+          this.defaultIcon = this.defaultIcon ? this.defaultIcon : this.icon;
+          this.defaultLabel = this.defaultLabel ? this.defaultLabel : this.label;
+          this.set("icon", "");
+          this.set("label", value);
+        } else {
+          this.set("icon", this.defaultIcon);
+          this.set("label", this.defaultLabel);
         }
       }
 
