@@ -6,11 +6,11 @@ An input element that makes it easier for the user to input a value from a pre-d
 
 You may import `iron-icons` to use with this element and set the icon property from the [iron iconset](https://www.webcomponents.org/element/PolymerElements/iron-icons)
 
-Set the values by setting the values property of the element, and then pick up the chosen value with the value property.
+Set the values by setting the _values_ property of the element, and then pick up the chosen value with the _value_ property.
 
-Icon and label property cannot be used at the same time, choose one.
+_Icon_ and _label_ property cannot be used at the same time, choose one.
 
-Opened property expands/collapses the value chooser.
+_Opened_ property expands/collapses the value chooser.
 
 ```html
 <material-value-chooser icon="add" label="+" values="[[values]]" value="{{value}}" opened="{{opened}}"></material-value-chooser>
