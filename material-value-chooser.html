@@ -128,7 +128,8 @@
           value: {
             type: String,
             value: 0,
-            notify: true
+            notify: true,
+            observer: "_valueChanged"
           }
         };
       }
@@ -137,6 +138,13 @@
         return [
           '_setupValueButtons(values)'
         ];
+      }
+
+      _valueChanged(value) {
+        if (value && value !== "") {
+          this.$.add.icon = "";
+          this.$.add.label = value;
+        }
       }
 
       _observeOpened(opened) {
@@ -162,7 +170,7 @@
                     this._valueButtonAnimate(valueButton, valueButtons);
 
                     valueButton.addEventListener("click", () => {
-                      this._setValue(valueButton.dataset.value);
+                      this.set("value", valueButton.dataset.value);
                       this.set("opened", false);
                     });
                   })
@@ -177,16 +185,10 @@
       _setupCustomInput() {
         this.$.custom.addEventListener("keydown", (event) => {
           if (event.keyCode === 13) {
-            this._setValue(event.target.value);
+            this.set("value", event.target.value);
             this.set("opened", false);
           }
         });
-      }
-
-      _setValue(value) {
-        this.value = value;
-        this.$.add.icon = "";
-        this.$.add.label = value;
       }
 
       _setupClick() {

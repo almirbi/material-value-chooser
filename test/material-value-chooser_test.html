@@ -15,6 +15,12 @@
 
 <body>
 
+  <test-fixture id="BasicFixtureDefaultValue">
+    <template>
+      <material-value-chooser value="0"></material-value-chooser>
+    </template>
+  </test-fixture>
+
   <test-fixture id="BasicFixture">
     <template>
       <material-value-chooser></material-value-chooser>
@@ -38,11 +44,15 @@
       });
 
       test('setting value works', () => {
-        // Create a test fixture
-        const element = fixture('BasicFixture');
-        element._setValue(2);
+        const element = fixture('BasicFixtureDefaultValue');
+        element.value = "AB";
 
-        assert.equal(element.value, 2);
+        assert.equal(element.shadowRoot.querySelector("#add").label, "AB");
+      });
+
+      test('default value works', () => {
+        const element = fixture('BasicFixtureDefaultValue');
+        assert.equal(element.shadowRoot.querySelector("#add").label, "0");
       });
 
       test('setting available values works', (done) => {
