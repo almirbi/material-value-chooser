@@ -8,6 +8,7 @@
     <style>
       :host {
         display: inline-block;
+        z-index: 300;
       }
 
       input {
@@ -127,6 +128,14 @@
             type: String,
             notify: true,
             observer: "_valueChanged"
+          },
+          collapsedZIndex: {
+            type: Number,
+            value: 300
+          },
+          expandedZIndex: {
+            type: Number,
+            value: 320
           }
         };
       }
@@ -200,6 +209,7 @@
       }
 
       _expandValues() {
+        this.style.zIndex = this.expandedZIndex;
         let valueButtons = this._getValueButtons();
         this.valuesWrapper.classList.remove("collapsed");
 
@@ -210,6 +220,7 @@
 
       _collapseValues() {
         let values = [...this.valuesWrapper.querySelectorAll(".expandable")];
+        this.style.zIndex = this.collapsedZIndex;
 
         values.forEach(valueButton => {
           this._valueButtonAnimate(valueButton, values);

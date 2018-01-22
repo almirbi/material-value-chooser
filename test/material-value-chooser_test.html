@@ -27,6 +27,13 @@
     </template>
   </test-fixture>
 
+  <test-fixture id="zIndexTest">
+    <template>
+      <material-value-chooser id="opened"></material-value-chooser>
+      <material-value-chooser id="closed"></material-value-chooser>
+    </template>
+  </test-fixture>
+
   <script>
     suite('material-value-chooser', () => {
 
@@ -69,6 +76,19 @@
           done();
         });
 
+      });
+
+      test('setting correct z index', () => {
+        // Create a test fixture
+        const elements = fixture('zIndexTest');
+        const opened = elements[0];
+
+        const closed = elements[1];
+
+        opened.opened = true;
+        closed.opened = false;
+
+        assert.isAbove(parseInt(opened.style.zIndex), parseInt(closed.style.zIndex), "Opened z-index is greater than closed z-index")
       });
 
     });
